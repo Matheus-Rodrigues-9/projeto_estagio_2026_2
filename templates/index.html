@@ -1,21 +1,91 @@
-<body>
-    <h1>VetAgenda</h1>
-    <h2>Cuidando de quem faz parte da sua família</h2>
-
-    <p>
-        Agende o atendimento do seu pet de form simples e rápida.
-    </p>
-
-    <button>Agendar atendimento</button>
-
-</body>
+<!DOCTYPE html>
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content=" width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>VetAgenda</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+
+    <link rel="stylesheet" hret="{{ url_for('static', filename='css/style.css')}}">
 </head>
+
+<body>
+    <header class="cabecalho">
+        <div class="container">
+            <h1 class="logo">VetAgenda</h1>
+
+            <nav>
+                <a href="#inicio">Início</a>
+                
+                <a href="#servicos">Serviços</a>
+                
+                <a href="#agendamento">Agendamento</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="inicio">
+            <div class="container">
+                <h2>Cuidado veterinário de forma simples e organizada</h2>
+
+                <p>
+                    Solicite o atendimentodo seu pet de forma rápida e acompanhe a confirmação clínica.
+                </p>
+
+                <a href="#agendamento" class="botao-principal">
+                    Agendar atendimento
+                </a>
+            </div>
+        </section>
+
+        <section class="servicos" id="servicos">
+            <div class="container">
+
+                <h2>Nossos serviços</h2>
+                <div class="lista-serviços">
+
+                    <article class="card">
+                        <h3> Consulta</h3>
+                        <p>
+                            Atendimento veterinário para avaliação da saúde do seu pet.
+                        </p>
+                    </article>
+
+                    <article class="card">
+                        <h3> Vacinação</h3>
+                        <p>
+                            Acompanhamento preventivo para cuidar da saúde e do bem-estar.
+                        </p>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="agendamento" id="agendamento">
+            <div class="container">
+
+                <h2>Solicite um atendimento</h2>
+
+                <p>
+                    Preencha seus dados e as informações do animal.
+                </p>
+
+                <button type="button">
+                    Formulário em breve
+                </button>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>VetAgenda  © 2026</p>
+    </footer>
+
+    </body>
 
 </html>
