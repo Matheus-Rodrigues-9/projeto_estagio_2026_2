@@ -372,6 +372,54 @@ nav a {
     color: #2d7a5e;
 }
 
+.filtros-admin {
+    display: flex;
+    align-items: end;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.filtros-admin div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filtros-admin label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.filtros-admin input,
+.filtros-admin select {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    min-width: 180px;
+}
+
+.filtros-admin button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    background-color: #2d7a5e;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.filtros-admin a {
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #2d7a5e;
+    border: 1px solid #2d7a5e;
+}
  @media (max-width: 768px) {
 
     .cabecalho .container {
@@ -390,4 +438,20 @@ nav a {
     .dashboard {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .filtros-admin {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filtros-admin input,
+    .filtros-admin select {
+        width: 100%;
+    }
+    .filtros-admin button,
+    .filtros-admin a {
+        width: 100%;
+        text-align: center;
+    }
+
 }
