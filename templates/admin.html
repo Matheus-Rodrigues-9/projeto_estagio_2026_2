@@ -38,6 +38,79 @@
     </header>
 
     <main class="container painel-admin">
+        <div class="dashboard">
+            <div class="card-dashboard">
+                <span>Total</span>
+                <strong>{{ total }}</strong>
+            </div>
+
+            <div class="card-dashboard">
+                <span>Pendentes</span>
+                <strong>{{ pendentes }}</strong>
+            </div>  
+
+            <div class="card-dashboard">
+                <span>Confirmados</span>
+                <strong>{{ confirmados }}</strong>
+            </div>
+
+            <div class="card-dashboard">
+                <span>Cancelados</span>
+                <strong>{{ cancelados }}</strong>
+            </div>
+
+        </div>
+
+        <form method="GET"
+              action="{{ url_for('admin') }}"
+              class="filtros-admin">
+          
+            <div>
+                <label for="busca">Buscar</label>
+
+                <input
+                    type="text"
+                    id="busca"
+                    name="busca"
+                    placeholder="Tutor ou animal"
+                    value="{{ buscar }}"
+                >
+            </div>
+            
+            <div>
+                <label for="status">Status</label>
+
+                <select id="status" name="status">
+
+                    <option value="">Todos</option>
+
+                    <option value="pendente"
+                        {% if status_filtro == "pendente" %}selected{% endif %}>
+                        Pendentes
+                    </option>
+
+                    <option value="confirmado"
+                        {% if status_filtro == "confirmado" %}selected{% endif %}>
+                    Confirmados
+                    </option>
+
+                    <option value="cancelado"
+                        {% if status_filtro == "cancelado" %}selected{% endif %}>
+                        Cancelados
+                    </option>
+
+                </select>
+            </div>
+
+            <button type="submit">
+                Filtrar
+            </button>
+
+            <a href="{{ url_for('admin')}}">
+                Limpar filtros
+            </a>
+
+        </form>
         <h2>Solicitações de atendimento</h2>
 
         <div class="tabela-container">

@@ -2,6 +2,7 @@ from datetime import datetime
 
 from flask import Flask, render_template,request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import or_
 
 app = Flask(__name__)
 
@@ -100,15 +101,53 @@ def admin():
 
     if not session.get("admin_logado"):
         return redirect(url_for("login"))
+    
+    status_filtro = request.args.get("status", "")
+    busca = request.args.get("busca", "").strip()
 
-    atendimentos = Atendimento.query.order_by(
+    consulta = Atendimento.query
+
+    if status_filtro in ["pendente", "confirmado", "cancelado"]:
+        consulta = consulta.filter_by(status=status_filtro)
+
+    if busca:
+        termo = f"%{busca}%"
+
+        consulta = consulta.filter(
+            or_(
+                Atendimento.nome_tutor.ilike(termo),
+                Atendimento.nome_animal.ilike(termo)
+            )
+        )
+
+    atendimentos = consulta.order_by(
         Atendimento.data.asc(),
         Atendimento.horario.asc()
     ).all()
-    
+
+    total = Atendimento.query.count()
+
+    pendentes = Atendimento.query.filter_by(
+        status="pendente"
+    ).count()
+
+    confirmados = Atendimento.query.filter_by(
+        status="confirmado"
+    ).count()
+
+    cancelados = Atendimento.query.filter_by(
+        status="cancelado"
+    ).count()
+
     return render_template(
         "admin.html",
-        atendimentos=atendimentos
+        atendimentos=atendimentos,
+        total=total,
+        pendentes=pendentes,
+        confirmados=confirmados,
+        cancelados=cancelados,
+        status_filtro=status_filtro,
+        busca=busca
     )
 
 @app.route("/admin/atendimento/<int:id>/status", methods=["POST"])
