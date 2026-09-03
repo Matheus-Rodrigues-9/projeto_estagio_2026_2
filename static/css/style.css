@@ -194,6 +194,156 @@ nav a {
     color: #1f6b4f;
     border: 1px solid #9fd7bd;
 }
+
+.pagina-login {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f6f8f7;
+}
+
+.login-container {
+    width: 90%;
+    max-width: 420px;
+}
+
+.login-card {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.login-card h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.login-card h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.login-card p {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.voltar-site {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #2d7a5e;
+    text-decoration: none;
+}
+
+.cabecalho-admin {
+    background-color: #2d7a5e;
+    color: white;
+    padding: 20px 0;
+}
+
+.topo-admin {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cabecalho-admin h1 {
+    margin-bottom: 5px;
+}
+
+.painel-admin {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.painel-admin h2 {
+    margin-bottom: 25px;
+}
+
+.tabela-container {
+    width: 100%;
+    overflow: auto;
+}
+
+.tabela-atendimentos {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+.tabela-atendimentos th,
+.tabela-atendimentos td {
+    padding: 14px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.tabela-atendimentos th {
+    background-color: #f1f5f3;
+}
+
+.status {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.status.pendente {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status.confirmado {
+    background-color: #dff3e8;
+    color: #1f6b4f;
+}
+
+.status.cancelado {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+.acoes {
+    display: flex;
+    gap: 8px;
+}
+
+.acoes form {
+    margin: 0;
+}
+
+.botao-confirmar,
+.botao-cancelar {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.botao-confirmar {
+    background-color: #2d7a5e;
+    color: white;
+}
+
+.botao-cancelar {
+    background-color: #b84040;
+    color: white;
+}
+
+.botao-logout {
+    background-color: white;
+    color: #2d7a5e;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+}
  @media (max-width: 768px) {
 
     .cabecalho .container {

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Flask, render_template,request, redirect, url_for, flash
+from flask import Flask, render_template,request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -80,6 +80,82 @@ def agendar():
 
     flash("Solicitação enviada com sucesso! A clínica analisará o horário solicitado.", "sucesso")
     return redirect(url_for("home"))
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+    if request.method == "POST":
+        usuario = request.form["usuario"]
+        senha = request.form["senha"]
+
+        if usuario == "admin" and senha == "1234":
+            session["admin_logado"] = True
+            return redirect(url_for("admin"))
+
+        flash("Usuário ou senha inválidos.", "erro")
+    return render_template("login.html")    
+
+@app.route("/admin")
+def admin():
+
+    if not session.get("admin_logado"):
+        return redirect(url_for("login"))
+
+    atendimentos = Atendimento.query.order_by(
+        Atendimento.data.asc(),
+        Atendimento.horario.asc()
+    ).all()
+    
+    return render_template(
+        "admin.html",
+        atendimentos=atendimentos
+    )
+
+@app.route("/admin/atendimento/<int:id>/status", methods=["POST"])
+def alterar_status(id):
+    if not session.get("admin_logado"):
+        return redirect(url_for("login"))
+        
+    atendimento = db.get_or_404(Atendimento, id)
+
+    novo_status = request.form["status"]
+
+    status_permitidos = ["pendente", "confirmado", "cancelado"]
+    
+    if novo_status not in status_permitidos:
+        flash("Status inválido.", "erro")
+        return redirect(url_for("admin"))
+
+    if novo_status == "confirmado":
+
+        conflito = Atendimento.query.filter_by(
+            data=atendimento.data,
+            horario=atendimento.horario,
+            status="confirmado"
+        ).filter(
+            Atendimento.id != atendimento.id
+        ).first()
+        if conflito:
+            flash(
+                "Não foi possível confirmar: Já existe um atendimento confirmado nesse horário.", "erro"
+            )
+            
+            return redirect(url_for("admin"))
+    
+    atendimento.status = novo_status
+
+    db.session.commit()
+
+    flash("Status atualizado com sucesso.", "sucesso")
+    return redirect(url_for("admin"))
+
+@app.route("/logout")
+def logout():
+    session.pop("admin_logado", None)
+
+    flash("Logout realizado com sucesso.", "sucesso")
+    
+    return redirect(url_for("login"))
 
 if __name__ == "__main__":
     with app.app_context():

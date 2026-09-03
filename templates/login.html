@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=divice-width, initial-scale=1.0">
+
+    <title>Login Administrativo | VetAgenda</title>
+
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="pagina-login">
+    <main class="login-container">
+        <div class="longin-card">
+            <h1>VetAgenda</h1>
+            <h2>Área Administrativa</h2>
+
+            <p>
+                Entre com suas credenciais para acessar o painel.
+            </p>
+            <form method="POST" action="/login">
+                <div class="grupo-formulario">
+                    <label for="usuario">Usuário</label>
+                    <input
+                        type="text"
+                        id="usuario"
+                        name="usuario"
+                        required
+                    >    
+                </div>
+                <div class="grupo-formulario">
+                    <label for="senha">Senha</label>
+                    <input
+                        type="password"
+                        id="senha"
+                        name="senha"
+                        required
+                    >
+                </div>
+                <button type="submit" class="botao-enviar">
+                    Entrar
+                </button>
+            </form>
+            <a href="/" class="voltar-site">
+                Voltar para o site
+            </a>
+
+        </div>
+
+    </main>
+    
+</body>
+
+</html>

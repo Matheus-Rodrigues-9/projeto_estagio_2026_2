@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=divice-width, initial-scale=1.0">
+
+    <title>Painel Administrativo | VetAgenda</title>
+
+    <link rel="stylesheet"
+          href="{{url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    {% with mensagens = get_flashed_messages(with_categories=true) %}
+        {% if mensagens %}
+            {% for categoria, mensagem in mensagens %}
+                <div class="mensagem {{ categoria }}">
+                    {{ mensagem }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <header class="cabecalho-admin">
+        <div class="container topo-admin">
+
+            <div>
+            <h1>VetAgenda</h1>
+            <p>Painel Administrativo</p>   
+        </div>
+        <a href="{{ url_for('logout') }}" class="botao-logout">
+            Sair
+        </a>
+
+        </div>
+    </header>
+
+    <main class="container painel-admin">
+        <h2>Solicitações de atendimento</h2>
+
+        <div class="tabela-container">
+            <table class="tabela-atendimentos">
+                <thead>
+                    <tr>
+                        <th>Tutor</th>
+                        <th>Animal</th>
+                        <th>Espécie</th>
+                        <th>Serviço</th>
+                        <th>Data</th>
+                        <th>Horário</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for atendimento in atendimentos %}
+
+                    <tr>
+                        <td>{{ atendimento.nome_tutor }}</td>
+                        <td>{{ atendimento.nome_animal }}</td>
+                        <td>{{ atendimento.especie }}</td>
+                        <td>{{ atendimento.servico }}</td>
+                        <td>{{ atendimento.data }}</td>
+                        <td>{{ atendimento.horario }}</td>
+                        
+                        <td>
+                            <span class="status {{ atendimento.status}}">
+                                {{ atendimento.status }}
+                            </span>
+                        </td>
+
+                        <td class="acoes">
+
+                            {% if atendimento.status != "confirmado" %}
+                            <form method="POST"
+                                  action="{{ url_for('alterar_status', id=atendimento.id) }}">
+                                  
+                                  <input type="hidden" name="status" value="confirmado">
+                                  
+                                  <button type="submit" class="botao-confirmar">
+                                      Confirmar  
+                                  </button>
+                                </form>
+                                {% endif %}
+                                
+                                {% if atendimento.status != "cancelado" %}
+                                <form method="POST"
+                                      action="{{ url_for('alterar_status', id=atendimento.id) }}">
+
+                                    <input type="hidden" name="status" value="cancelado">
+                                    
+                                    <button type="submit" class="botao-cancelar">
+                                        Cancelar
+                                    </button>
+                                </form>
+                                {% endif %}
+
+                        </td>
+                    </tr>
+
+                    {% else%}
+
+                    <tr>
+                        <td colspan="8">
+                            Nenhuma solicitação encontrada.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>
