@@ -97,6 +97,40 @@ def agendar():
         flash("Preencha todos os campos obrigatórios.", "erro")
         return redirect(url_for("home"))
 
+    especies_permitidas = [
+        "Cachorro",
+        "Gato",
+        "Ave",
+        "Outro"
+    ]
+
+    portes_permitidos = [
+        "Pequeno",
+        "Médio",
+        "Grande"
+    ]
+
+    servicos_permitidos = [
+        "Consulta",
+        "Vacinação",
+        "Check-up",
+        "Banho e Tosa",
+        "Retorno",
+        "Outro"
+    ]
+
+    if especie not in especies_permitidas:
+        flash("Espécie inválida.", "erro")
+        return redirect(url_for("home"))
+
+    if porte not in portes_permitidos:
+        flash("Porte inválido.", "erro")
+        return redirect(url_for("home"))
+
+    if servico not in servicos_permitidos:
+        flash("Serviço inválido.", "erro")
+        return redirect(url_for("home"))
+
     if "@" not in email or "." not in email:
         flash("Informe um email válido.", "erro")
         return redirect(url_for("home"))

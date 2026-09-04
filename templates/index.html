@@ -24,7 +24,10 @@
     
     <header class="cabecalho">
         <div class="container">
-            <h1 class="logo">VetAgenda</h1>
+           <a href="#inicio" class="logo-area">
+    <span class="logo-icone">🐾</span>
+    <span>VetAgenda</span>
+</a>
 
             <nav>
                 <a href="#inicio">Início</a>
@@ -33,6 +36,14 @@
                 
                 <a href="#agendamento">Agendamento</a>
             </nav>
+
+            <div class="marca-mupi-topo">
+                <img
+                    src="{{ url_for('static', filename='img/logo.png') }}"
+                    alt="Mupi Systems"
+                    class="mupi-logo-topo"
+                >
+            </div>
         </div>
     </header>
 
@@ -42,7 +53,7 @@
                 <h2>Cuidado veterinário de forma simples e organizada</h2>
 
                 <p>
-                    Solicite o atendimentodo seu pet de forma rápida e acompanhe a confirmação clínica.
+                    Solicite o atendimento do seu pet de forma rápida e acompanhe a confirmação clínica.
                 </p>
 
                 <a href="#agendamento" class="botao-principal">
@@ -55,17 +66,18 @@
             <div class="container">
 
                 <h2>Nossos serviços</h2>
+
                 <div class="lista-serviços">
 
                     <article class="card">
-                        <h3> Consulta</h3>
+                       <h3>🩺 Consulta Veterinária</h3>
                         <p>
                             Atendimento veterinário para avaliação da saúde do seu pet.
                         </p>
                     </article>
 
                     <article class="card">
-                        <h3> Vacinação</h3>
+                        <h3>💉 Vacinação</h3>
                         <p>
                             Acompanhamento preventivo para cuidar da saúde e do bem-estar.
                         </p>
@@ -155,19 +167,19 @@
                     <div class="grupo-formulario">
                         <label for="servico">Serviço</label>
 
-                        <select id="sercico" name="servico" required>
+                        <select id="servico" name="servico" required>
                             <option value="">Selecione</option>
                             <option value="Consulta">Consulta veterinária</option>
                             <option value="Vacinação">Vacinação</option>
                             <option value="Check-up">Check-up</option>
-                            <option value="Banhoe Tosa">Banho e tosa</option>
+                            <option value="Banho e Tosa">Banho e tosa</option>
                             <option value="Retorno">Retorno</option>
                             <option value="Outro">Outro</option>
                         </select>
                     </div>
 
                     <div class="grupo-formulario">
-                        <label for="data>">Data desejada</label>
+                        <label for="data">Data desejada</label>
                         <input
                         type="date"
                         id="data"
@@ -187,7 +199,7 @@
                     </div>
 
                     <div class="grupo-formulario">
-                        <label for="observacoes">Observções</label>
+                        <label for="observacoes">Observações</label>
                         <textarea
                         id="observacoes"
                         name="observacoes"

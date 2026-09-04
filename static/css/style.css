@@ -427,6 +427,33 @@ nav a {
     border: 1px solid #f1aeb5;
 }
 
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.logo-icone {
+    font-size: 30px;
+}
+
+.marca-mupi-topo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mupi-logo-topo {
+    height: 30px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.85;
+}
+
  @media (max-width: 768px) {
 
     .cabecalho .container {
