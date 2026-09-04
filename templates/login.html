@@ -11,6 +11,16 @@
 </head>
 
 <body class="pagina-login">
+    {% with mensagens = get_flashed_messages(with_categories=true) %}
+        {% if mensagens %}
+            {% for categoria, mensagem in mensagens %}
+                <div class="mensagem {{ categoria }}">
+                    {{ mensagem }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
     <main class="login-container">
         <div class="longin-card">
             <h1>VetAgenda</h1>

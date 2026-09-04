@@ -420,6 +420,13 @@ nav a {
     color: #2d7a5e;
     border: 1px solid #2d7a5e;
 }
+
+.mensagem.erro {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f1aeb5;
+}
+
  @media (max-width: 768px) {
 
     .cabecalho .container {

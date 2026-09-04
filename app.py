@@ -1,12 +1,25 @@
-from datetime import datetime
+import os
+from datetime import datetime, date
 
 from flask import Flask, render_template,request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
+from dotenv import load_dotenv
+from werkzeug.security import check_password_hash
+
+
+load_dotenv()
 
 app = Flask(__name__)
 
-app.secret_key = "vetagenda-chave-secreta"
+secret_key = os.getenv("SECRET_KEY")
+
+if not secret_key:
+    raise RuntimeError(
+        "SECRET_KEY não configurada. Crie o arquivo .env com base no .env.example."
+    )
+
+app.secret_key = secret_key
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///vetagenda.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -42,6 +55,10 @@ class Atendimento(db.Model):
         default=datetime.utcnow
     )
 
+class Admin(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    usuario = db.Column(db.String(80), unique=True, nullable=False)
+    senha_hash = db.Column(db.String(256), nullable=False)
 
 
 
@@ -52,16 +69,53 @@ def home():
 
 @app.route("/agendar", methods=["POST"])
 def agendar():
-    nome_tutor = request.form["nome_tutor"]
-    email = request.form["email"]
-    telefone = request.form["telefone"]
-    nome_animal = request.form["nome_animal"]
-    especie = request.form["especie"]
-    porte = request.form["porte"]
-    servico = request.form["servico"]
-    data = request.form["data"]
-    horario = request.form["horario"]
-    observacoes = request.form["observacoes"]
+
+    nome_tutor = request.form.get("nome_tutor", "").strip()
+    email = request.form.get("email", "").strip()
+    telefone = request.form.get("telefone", "").strip()
+    nome_animal = request.form.get("nome_animal", "").strip()
+    especie = request.form.get("especie", "").strip()
+    porte = request.form.get("porte", "").strip()
+    servico = request.form.get("servico", "").strip()
+    data_atendimento = request.form.get("data", "").strip()
+    horario = request.form.get("horario", "").strip()
+    observacoes = request.form.get("observacoes", "").strip()
+
+    campos_obrigatorios = [
+        nome_tutor,
+        email,
+        telefone,
+        nome_animal,
+        especie,
+        porte,
+        servico,
+        data_atendimento,
+        horario
+    ]
+
+    if not all(campos_obrigatorios):
+        flash("Preencha todos os campos obrigatórios.", "erro")
+        return redirect(url_for("home"))
+
+    if "@" not in email or "." not in email:
+        flash("Informe um email válido.", "erro")
+        return redirect(url_for("home"))
+
+    try:
+        data_convertida = datetime.strptime(
+            data_atendimento,
+            "%Y-%m-%d"
+        ).date()
+
+    except ValueError:
+        flash("Data de atendimento inválida.", "erro")
+        return redirect(url_for("home"))
+    
+    if data_convertida < date.today():
+        flash(
+            "Não é possível solicitar atendimento para uma data passada.", "erro"
+        )
+        return redirect(url_for("home"))
 
     novo_atendimento = Atendimento(
         nome_tutor=nome_tutor,
@@ -71,7 +125,7 @@ def agendar():
         especie=especie,
         porte=porte,
         servico=servico,
-        data=data,
+        data=data_atendimento,
         horario=horario,
         observacoes=observacoes
     )
@@ -80,6 +134,7 @@ def agendar():
     db.session.commit()
 
     flash("Solicitação enviada com sucesso! A clínica analisará o horário solicitado.", "sucesso")
+    
     return redirect(url_for("home"))
 
 @app.route("/login", methods=["GET", "POST"])
@@ -89,12 +144,20 @@ def login():
         usuario = request.form["usuario"]
         senha = request.form["senha"]
 
-        if usuario == "admin" and senha == "1234":
+        admin = Admin.query.filter_by(
+            usuario=usuario
+        ).first()
+        if admin and check_password_hash(admin.senha_hash, senha):
+
             session["admin_logado"] = True
+            session["admin_id"] = admin.id
+
             return redirect(url_for("admin"))
 
         flash("Usuário ou senha inválidos.", "erro")
-    return render_template("login.html")    
+
+    return render_template("login.html")
+    
 
 @app.route("/admin")
 def admin():
